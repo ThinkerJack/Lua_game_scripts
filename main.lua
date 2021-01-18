@@ -265,7 +265,7 @@ if (multiColor(colorTable["fightRollBack"])) then
     mSleep(1000)
 end
             
--- if( multiColor(yourRound) and (multiColor(firstCardNot)  and multiColor(colorTable["thirdCardUsed"]) and multiColor(colorTable["secondCardUsed"]))  and multiColor(colorTable["battleYourFight"]))then
+--  if( multiColor(yourRound) and (multiColor(firstCardNot)  and multiColor(colorTable["thirdCardUsed"]) and multiColor(colorTable["secondCardUsed"]))  and multiColor(colorTable["battleYourFight"]))then
 if (multiColor(yourRound)) then
     mSleep(1000)
     nLog("结束回合")
@@ -313,7 +313,7 @@ function doorPve()
             mSleep(1000)
         end
         --选择门
-        if (multiColor(chooseDoor)) then
+        if (multiColor(colorTable["chooseBattleDoor"])) then
             nLog("选择门")
             tap(89, 657)
             mSleep(2000)
@@ -345,4 +345,4 @@ end
 --休闲决斗
 funntPvpRun()
 --传送门
--- doorPve();
+--  doorPve();

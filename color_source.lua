@@ -335,8 +335,8 @@ colorTable["bottomChat"] = {
 	{169, 838, 0xffffff}
 }
 
--- 更换决斗门
-colorTable["changeDoor"] = {
+-- 选择决斗门
+colorTable["chooseBattleDoor"] = {
 	{98, 96, 0x616d9a},
 	{98, 98, 0xfafbfc},
 	{98, 99, 0xf9fafc},
