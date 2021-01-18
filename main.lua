@@ -96,7 +96,6 @@ function beat()
         mSleep(1000)
         tap(272, 479)
         mSleep(500)
-        mSleep()
     end
     -- 主要阶段
     if multiColor(yourRound) and multiColor(colorTable["battleYourMain"]) then
@@ -181,82 +180,102 @@ function beat()
         while (flag and multiColor(colorTable["battleYourFight"])) do
             -- 有卡加上没有绿光
             if
-                (multiColor(yourRound) and (not multiColor(colorTable["withoutSecondCard"])) and
-                    (not multiColor(colorTable["secondCardUsed"])) and
-                    multiColor(colorTable["battleYourFight"]))
-             then
-                mSleep(1000)
-                nLog("二号槽位有卡")
-                touchDown(268, 550)
-                mSleep(30)
-                touchMove(268, 500)
-                mSleep(30)
-                touchMove(268, 450)
-                mSleep(30)
-                touchMove(268, 400)
-                mSleep(30)
-                touchUp(268, 350)
-                mSleep(1000)
-                while ((not multiColor(yourRound)) and multiColor(colorTable["battleYourFight"])) do
+            (multiColor(yourRound) and (not multiColor(colorTable["withoutSecondCard"])) and
+                (not multiColor(colorTable["secondCardUsed"])) and
+                multiColor(colorTable["battleYourFight"]))
+            then
+            mSleep(1000)
+            nLog("二号槽位有卡")
+            touchDown(268, 550)
+            mSleep(30)
+            touchMove(268, 500)
+            mSleep(30)
+            touchMove(268, 450)
+            mSleep(30)
+            touchMove(268, 400)
+            mSleep(30)
+            touchUp(268, 350)
+            mSleep(1000)
+            local i = 1000
+            while ((not multiColor(yourRound)) and multiColor(colorTable["battleYourFight"])) do
+                if (multiColor(colorTable["fightRollBack"])) then
+                    nLog("发生倒回")
+                    mSleep(2000)
+                    tap(166, 527)
+                    mSleep(1000)
                 end
-                mSleep(1500)
             end
-            if
-                (multiColor(yourRound) and (not multiColor(colorTable["withoutThirdCard"])) and (not multiColor(colorTable["thirdCardUsed"])) and
-                    multiColor(colorTable["battleYourFight"]))
-             then
-                nLog("三号槽位有卡")
-                touchDown(380, 550)
-                mSleep(30)
-                touchMove(380, 500)
-                mSleep(30)
-                touchMove(380, 450)
-                mSleep(30)
-                touchMove(380, 400)
-                mSleep(30)
-                touchUp(380, 350)
-                mSleep(1000)
-                while ((not multiColor(yourRound)) and multiColor(colorTable["battleYourFight"])) do
-                end
-                mSleep(1500)
-            end
-            if
-                (multiColor(yourRound) and (not multiColor(colorTable["withoutFirstCard"])) and
-                    (not multiColor(colorTable["firstCardUsed"])) and
-                    multiColor(colorTable["battleYourFight"]))
-             then
-                nLog("一号槽位有卡")
-                touchDown(150, 550)
-                mSleep(30)
-                touchMove(150, 500)
-                mSleep(30)
-                touchMove(150, 450)
-                mSleep(30)
-                touchMove(150, 400)
-                mSleep(30)
-                touchUp(150, 350)
-                mSleep(1000)
-                while ((not multiColor(yourRound)) and multiColor(colorTable["battleYourFight"])) do
-                end
-                mSleep(1500)
-            end
+            mSleep(1500)
+        end
+        if
+        (multiColor(yourRound) and (not multiColor(colorTable["withoutThirdCard"])) and (not multiColor(colorTable["thirdCardUsed"])) and
+            multiColor(colorTable["battleYourFight"]))
+        then
+        nLog("三号槽位有卡")
+        touchDown(380, 550)
+        mSleep(30)
+        touchMove(380, 500)
+        mSleep(30)
+        touchMove(380, 450)
+        mSleep(30)
+        touchMove(380, 400)
+        mSleep(30)
+        touchUp(380, 350)
+        mSleep(1000)
+        while ((not multiColor(yourRound)) and multiColor(colorTable["battleYourFight"])) do
             if (multiColor(colorTable["fightRollBack"])) then
                 nLog("发生倒回")
                 mSleep(2000)
                 tap(166, 527)
                 mSleep(1000)
             end
-            -- if( multiColor(yourRound) and (multiColor(firstCardNot)  and multiColor(colorTable["thirdCardUsed"]) and multiColor(colorTable["secondCardUsed"]))  and multiColor(colorTable["battleYourFight"]))then
-            if (multiColor(yourRound)) then
-                mSleep(1000)
-                nLog("结束回合")
-                tap(495, 606)
-                mSleep(500)
-                tap(419, 638)
-                flag = false
-            end
+        end
+        mSleep(1500)
+    end
+    if
+    (multiColor(yourRound) and (not multiColor(colorTable["withoutFirstCard"])) and
+        (not multiColor(colorTable["firstCardUsed"])) and
+        multiColor(colorTable["battleYourFight"]))
+    then
+    nLog("一号槽位有卡")
+    touchDown(150, 550)
+    mSleep(30)
+    touchMove(150, 500)
+    mSleep(30)
+    touchMove(150, 450)
+    mSleep(30)
+    touchMove(150, 400)
+    mSleep(30)
+    touchUp(150, 350)
+    mSleep(1000)
+    while ((not multiColor(yourRound)) and multiColor(colorTable["battleYourFight"])) do
+        if (multiColor(colorTable["fightRollBack"])) then
+            nLog("发生倒回")
+            mSleep(2000)
+            tap(166, 527)
+            mSleep(1000)
         end
     end
+    mSleep(1500)
+end
+if (multiColor(colorTable["fightRollBack"])) then
+    nLog("发生倒回")
+    mSleep(2000)
+    tap(166, 527)
+    mSleep(1000)
+end
+            
+-- if( multiColor(yourRound) and (multiColor(firstCardNot)  and multiColor(colorTable["thirdCardUsed"]) and multiColor(colorTable["secondCardUsed"]))  and multiColor(colorTable["battleYourFight"]))then
+if (multiColor(yourRound)) then
+    mSleep(1000)
+    nLog("结束回合")
+    tap(495, 606)
+    mSleep(500)
+    tap(419, 638)
+    flag = false
+end
+end
+end
 end
 
 function doorPve()
