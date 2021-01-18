@@ -1,0 +1,10 @@
+{
+    "Lua.diagnostics.globals": [
+        "beat",
+        "doorPve"
+    ],
+    "Lua.diagnostics.disable": [
+        "lowercase-global",
+        "undefined-global"
+    ]
+}
