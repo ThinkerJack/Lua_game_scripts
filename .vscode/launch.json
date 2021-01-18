@@ -1,0 +1,61 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "launch",
+            "type": "lua",
+            "request": "launch",
+            "stopOnEntry": true,
+            "program": "${workspaceFolder}/main.lua",
+            "cwd": "${workspaceFolder}",
+            "path": "${workspaceFolder}/?.lua",
+            "cpath": "${workspaceFolder}/?.dll",
+            "arg": [],
+            "consoleCoding": "utf8"
+        },
+        {
+            "name": "launch process",
+            "type": "lua",
+            "request": "launch",
+            "stopOnEntry": true,
+            "runtimeExecutable": "${workspaceFolder}/lua.exe",
+            "runtimeArgs": "${workspaceFolder}/main.lua",
+            "consoleCoding": "utf8"
+        },
+        {
+            "name": "attach",
+            "type": "lua",
+            "request": "attach",
+            "stopOnEntry": true,
+            "processId": "pickProcess"
+        },
+        {
+            "name": "attach",
+            "type": "lua",
+            "request": "attach",
+            "stopOnEntry": true,
+            "address": "127.0.0.1:4278"
+        },
+        {
+            "type": "lua",
+            "request": "launch",
+            "tag": "normal",
+            "name": "LuaPanda",
+            "description": "通用模式,通常调试项目请选择此模式 | launchVer:3.2.0",
+            "luaFileExtension": "",
+            "connectionPort": 8818,
+            "stopOnEntry": false,
+            "useCHook": true,
+            "autoPathMode": true
+        },
+        {
+            "type": "lua",
+            "request": "launch",
+            "name": "Debug",
+            "program": "${workspaceFolder}/main.lua"
+        }
+    ]
+}
