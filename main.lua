@@ -1,8 +1,9 @@
 require("module")
 
 --登录
-appInit();
+--appInit();
 --休闲决斗
---funntPvpRun();
+funntPvpRun();
 --传送门
 --doorPve();
+

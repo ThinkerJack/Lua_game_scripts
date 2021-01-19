@@ -1,27 +1,29 @@
 require("TSLib")
 require("color_source")
 require("util")
-require("module")
+
+
 function appInit()
     -- 初始化屏幕
     init(0)
     -- 启动APP
     if runApp("com.netease.ma84") == 0 then
+        local flag = true
         local judgeList = {
-            {color = gameRun["startGameColor"], log = "游戏启动 开始游戏界面按钮", x = 273, y = 597},
-            {color = gameRun["fullScreenPopBackColor"], log = "通用 全屏弹框左下角返回", x = 46, y = 923},
+            {color = gameRun["startGameColor"], log = "游戏启动 开始游戏界面按钮", x = 273, y = 597, sleep = 2000},
+            {color = general["fullScreenPopBackColor"], log = "通用 全屏弹框左下角返回", x = 46, y = 923},
             {
-                color = gameRun["loginAfterMain"],
+                color = general["loginAfterMain"],
                 log = "通用 登录后游戏主页面",
                 func = function()
                     flag = false
                 end
             }
         }
-        flag = true
         while (flag) do
             loopJudge(judgeList)
         end
+        nLog("测试结束")
     else
         nLog("启动失败")
         appInit()
@@ -29,52 +31,61 @@ function appInit()
 end
 
 function funntPvpRun()
+    local judgeList = {
+        {color = gameMainPop["loginPopSureColor"], log = "游戏主界面可能的弹窗 登录后弹出的广告确认按钮", x = 276, y = 714},
+        {color = pvpFieldMain["pvpFieldChoosedColor"], log = "竞技场主页 选中状态的底部竞技场", x = 174, y = 920},
+        {color = funnyPvp["listFunnyPvpColor"], log = "休闲决斗 决斗列表中的休闲决斗", x = 258, y = 623},
+        {color = general["bottomSureColor"], log = "通用 底部确定", x = 274, y = 911},
+        {color = general["bottomNextColor"], log = "通用 底部下一步", x = 274, y = 911},
+        {color = funnyPvp["funnyPvpStartColor"], log = "休闲决斗 开始决斗", x = 271, y = 406},
+        {color = general["battleAfterLevelUpColor"], log = "通用 战斗结束后升级", x = 275, y = 480}
+    }
+    beatJudgeList = {
+        {color = battleIng["fightRollBackColor"], log = "战斗阶段 发生倒回", x = 166, y = 527},
+        {color = netWorkError["noNetWorkColor"], log = "网络错误 网络失败弹框", x = 392, y = 540},
+        {color = netWorkError["connectErrorColor"], log = "网络错误 链接超时", x = 280, y = 533},
+        {color = netWorkError["netWorkOutTimeColor"], log = "网络错误 链接超时", x = 269, y = 522}
+    }
     while (true) do
-        -- 确认弹框
-        if (multiColor(gameMainPop["loginPopSureColor"])) then
-            tap(276, 714)
-            mSleep(1000)
-        end
-        -- 选择场地
-        if (multiColor(pvpFieldMain["pvpFieldChoosedColor"])) then
-            tap(174, 920)
-            mSleep(1000)
-        end
-        -- 休闲决斗
-        if (multiColor(funnyPvp["listFunnyPvpColor"])) then
-            tap(258, 623)
-            mSleep(1000)
-        end
-        -- 点击确定
-        if multiColor(general["bottomSureColor"]) then
-            nLog("确定")
-            tap(274, 911)
-            mSleep(500)
-        end
-        -- 点击下一步
-        if multiColor(general["bottomNextColor"]) then
-            nLog("下一步")
-            tap(274, 911)
-            mSleep(500)
-        end
-        -- 点击决斗
-        if multiColor(funnyPvp["funnyPvpStartColor"]) then
-            mSleep(1000)
-            nLog("决斗开始")
-            tap(271, 406)
-            mSleep(500)
-        end
-
+        loopJudge(judgeList)
+        loopJudge(beatJudgeList)
         beat()
-
-        --升级
-        if multiColor(general["battleAfterLevelUpColor"]) then
-            nLog("升级")
-            tap(275, 480)
-            mSleep(500)
-        end
     end
 end
+
+function doorPve()
+    local judgeList = {
+        {color = gameMainPop["loginPopSureColor"], log = "游戏主界面可能的弹窗 登录后弹出的广告确认按钮", x = 276, y = 714},
+        {color = general["bottomSureColor"], log = "通用 底部确定", x = 274, y = 911},
+        {color = general["bottomNextColor"], log = "通用 底部下一步", x = 274, y = 911},
+        {color = general["battleAfterLevelUpColor"], log = "通用 战斗结束后升级", x = 275, y = 480},
+        {color = general["bottomChat"], log = "通用 底部NPC聊天", x = 287, y = 901},
+        {color = general["loginAfterMain"], log = "通用 登录后游戏主页面", x = 382, y = 418},
+        {color = door["highLevelPopSureColor"], log = "决斗门 高等级怪物弹框", x = 388, y = 418},
+        {color = door["bottomBeginBattleColor"], log = "决斗门 底部开始决斗", x = 287, y = 834},
+        {color = door["keyNoStockColor"], log = "决斗门 钥匙数量不足", x = 523, y = 462}
+    }
+    local advancedJudgeList = {
+        {
+            data = multiColor(door["tapBattleDoorColor"]),
+            log = "决斗门 点击圆形决斗门",
+            func = function()
+                -- 自动点击等级10
+                tap(89, 657)
+                mSleep(2000)
+                tap(280, 832)
+                mSleep(1000)
+            end
+        }
+    }
+    while (true) do
+        loopJudge(judgeList)
+        loopJudge(beatJudgeList)
+        loopAdvancedJudge(advancedJudgeList)
+        beat()
+    end
+end
+
 function beat()
     -- 抽卡阶段
     if
@@ -83,19 +94,7 @@ function beat()
      then
         mSleep(500)
         nLog("抽卡阶段")
-        touchDown(260, 450)
-        mSleep(30)
-        touchMove(260, 500)
-        mSleep(30)
-        touchMove(260, 550)
-        mSleep(30)
-        touchMove(260, 600)
-        mSleep(30)
-        touchMove(260, 650)
-        mSleep(30)
-        touchMove(260, 700)
-        mSleep(30)
-        touchUp(260, 700)
+        sliding(260, 450, 260, 700, false, true)
         mSleep(1000)
         tap(272, 479)
         mSleep(500)
@@ -104,17 +103,9 @@ function beat()
     if multiColor(battleIng["pvpYourRoundColor"]) and multiColor(battleIng["yourMainColor"]) then
         nLog("你的主要阶段")
         nLog("出卡阶段")
-        mSleep(500)
-        touchDown(230, 860)
-        mSleep(30)
-        touchMove(230, 810)
-        mSleep(30)
-        touchMove(230, 760)
-        mSleep(30)
-        touchMove(230, 710)
-        mSleep(30)
-        touchUp(230, 710)
-        mSleep(800)
+        mSleep(1000)
+        sliding(230, 890, 230, 690, flase, flase)
+        mSleep(1000)
         if (multiColor(battleIng["mainWakeCardColor"])) then
             nLog("召唤卡阶段")
             tap(204, 706)
@@ -131,51 +122,6 @@ function beat()
             mSleep(1000)
         end
     end
-    --弹出框
-    if (multiColor(battleIng["fightRollBackColor"])) then
-        nLog("发生倒回")
-        mSleep(2000)
-        tap(166, 527)
-        mSleep(1000)
-    end
-    --网络失败
-    if (multiColor(netWorkError["noNetWorkColor"])) then
-        nLog("网络失败")
-        mSleep(2000)
-        tap(392, 540)
-        mSleep(1000)
-    end
-    --连接错误
-    if (multiColor(netWorkError["connectErrorColor"])) then
-        nLog("连接错误")
-        mSleep(2000)
-        tap(280, 533)
-        mSleep(1000)
-    end
-    -- x, y = findImage("eye.png", 0, 0, 535, 947);--在（0,0）到（w-1,h-1）寻找刚刚截图的图片
-    -- if x ~= -1 and y ~= -1 then        --如果在指定区域找到某图片符合条件
-    --     nLog("x:"..x.."\r\n".."y:"..y,5);                   --显示坐标
-    -- else                               --如果找不到符合条件的图片
-    --     nLog("没有找到图片!",5);
-    -- end
-    -- --寻找符合条件的点
-    -- x, y = findColorInRegionFuzzy( 0xffcc00, 100, 310, 0, 349, 39);
-    -- if x ~= -1 and y ~= -1 then  --如果在指定区域找到某点符合条件
-    --     touchDown(x, y);		 --那么单击该点
-    --     mSleep(30);
-    --     touchUp(x, y);
-    --     nLog("test");
-
-    -- else						 --如果找不到符合条件的点
-    --     nLog("未找到符合条件的坐标！");
-    -- end
-    --链接超时
-    if (multiColor(netWorkError["netWorkOutTimeColor"])) then
-        nLog("链接超时")
-        mSleep(2000)
-        tap(269, 522)
-        mSleep(1000)
-    end
     -- 战斗阶段
     if multiColor(battleIng["yourFightColor"]) then
         nLog("战斗阶段")
@@ -189,24 +135,11 @@ function beat()
              then
                 mSleep(1000)
                 nLog("二号槽位有卡")
-                touchDown(268, 550)
-                mSleep(30)
-                touchMove(268, 500)
-                mSleep(30)
-                touchMove(268, 450)
-                mSleep(30)
-                touchMove(268, 400)
-                mSleep(30)
-                touchUp(268, 350)
+                sliding(268, 550, 268, 350, flase, flase)
                 mSleep(1000)
                 local i = 1000
                 while ((not multiColor(battleIng["pvpYourRoundColor"])) and multiColor(battleIng["yourFightColor"])) do
-                    if (multiColor(battleIng["fightRollBackColor"])) then
-                        nLog("发生倒回")
-                        mSleep(2000)
-                        tap(166, 527)
-                        mSleep(1000)
-                    end
+                    loopJudge(beatJudgeList)
                 end
                 mSleep(1500)
             end
@@ -216,23 +149,10 @@ function beat()
                     multiColor(battleIng["yourFightColor"]))
              then
                 nLog("三号槽位有卡")
-                touchDown(380, 550)
-                mSleep(30)
-                touchMove(380, 500)
-                mSleep(30)
-                touchMove(380, 450)
-                mSleep(30)
-                touchMove(380, 400)
-                mSleep(30)
-                touchUp(380, 350)
+                sliding(380, 550, 380, 350, flase, flase)
                 mSleep(1000)
                 while ((not multiColor(battleIng["pvpYourRoundColor"])) and multiColor(battleIng["yourFightColor"])) do
-                    if (multiColor(battleIng["fightRollBackColor"])) then
-                        nLog("发生倒回")
-                        mSleep(2000)
-                        tap(166, 527)
-                        mSleep(1000)
-                    end
+                    loopJudge(beatJudgeList)
                 end
                 mSleep(1500)
             end
@@ -242,40 +162,22 @@ function beat()
                     multiColor(battleIng["yourFightColor"]))
              then
                 nLog("一号槽位有卡")
-                touchDown(150, 550)
-                mSleep(30)
-                touchMove(150, 500)
-                mSleep(30)
-                touchMove(150, 450)
-                mSleep(30)
-                touchMove(150, 400)
-                mSleep(30)
-                touchUp(150, 350)
+                sliding(150, 550, 150, 350, flase, flase)
                 mSleep(1000)
                 while ((not multiColor(battleIng["pvpYourRoundColor"])) and multiColor(battleIng["yourFightColor"])) do
-                    if (multiColor(battleIng["fightRollBackColor"])) then
-                        nLog("发生倒回")
-                        mSleep(2000)
-                        tap(166, 527)
-                        mSleep(1000)
-                    end
+                    loopJudge(beatJudgeList)
                 end
                 mSleep(1500)
             end
-            if (multiColor(battleIng["fightRollBackColor"])) then
-                nLog("发生倒回")
-                mSleep(2000)
-                tap(166, 527)
-                mSleep(1000)
-            end
+            loopJudge(beatJudgeList)
 
-            if
-                (multiColor(battleIng["pvpYourRoundColor"]) and
-                    (multiColor(battleIng["firstCardUsedColor"]) and multiColor(battleIng["secondCardUsedColor"]) and
-                        multiColor(battleIng["thirdCardUsedColor"])) and
-                    multiColor(battleIng["yourFightColor"]))
-             then
-                -- if (multiColor(battleIng["pvpYourRoundColor"])) then
+            -- if
+            -- (multiColor(battleIng["pvpYourRoundColor"]) and
+            --     (multiColor(battleIng["firstCardUsedColor"]) and multiColor(battleIng["secondCardUsedColor"]) and
+            --         multiColor(battleIng["thirdCardUsedColor"])) and
+            --     multiColor(battleIng["yourFightColor"]))
+            -- then
+            if (multiColor(battleIng["pvpYourRoundColor"])) then
                 mSleep(1000)
                 nLog("结束回合")
                 tap(495, 606)
@@ -283,69 +185,6 @@ function beat()
                 tap(419, 638)
                 flag = false
             end
-        end
-    end
-end
-
-function doorPve()
-    while (true) do
-        -- 点击确定
-        if multiColor(general["bottomSureColor"]) then
-            nLog("确定")
-            tap(274, 911)
-            mSleep(30)
-        end
-        beat()
-        -- 点击下一步
-        if multiColor(general["bottomNextColor"]) then
-            nLog("下一步")
-            tap(274, 911)
-            mSleep(30)
-        end
-        --升级
-        if multiColor(general["battleAfterLevelUpColor"]) then
-            nLog("升级")
-            tap(275, 480)
-            mSleep(1000)
-        end
-        --打完门聊天
-        if multiColor(general["bottomChat"]) then
-            mSleep(1000)
-            nLog("关闭聊天")
-            tap(287, 901)
-            mSleep(1000)
-        end
-        --进入主页面
-        if (multiColor(general["loginAfterMain"])) then
-            nLog("进入主界面")
-            tap(382, 418)
-            mSleep(1000)
-        end
-        --选择门
-        if (multiColor(door["tapBattleDoorColor"])) then
-            nLog("选择门")
-            tap(89, 657)
-            mSleep(2000)
-            tap(280, 832)
-            mSleep(1000)
-        end
-        --弹框确认
-        if (multiColor(door["highLevelPopSureColor"])) then
-            nLog("弹框确认")
-            tap(388, 548)
-            mSleep(1000)
-        end
-        --确认决斗
-        if (multiColor(door["bottomBeginBattleColor"])) then
-            nLog("确认决斗")
-            tap(287, 834)
-            mSleep(1000)
-        end
-        --钥匙数量不足
-        if (multiColor(colorTable["doorKeyNoStock"])) then
-            nLog("钥匙数量不足")
-            tap(523, 462)
-            mSleep(1000)
         end
     end
 end

@@ -127,16 +127,16 @@ general["battleAfterLevelUpColor"] = {
 
 -- 通用 全屏弹框左下角返回
 general["fullScreenPopBackColor"] = {
-	{30, 927, 0xffffff},
-	{31, 927, 0xffffff},
-	{32, 927, 0xffffff},
-	{34, 927, 0xffffff},
-	{35, 927, 0xffffff},
-	{36, 927, 0xffffff},
-	{37, 927, 0xffffff},
-	{38, 927, 0xffffff},
-	{40, 927, 0xffffff},
-	{41, 927, 0xffffff}
+	{   32,  925, 0xffffff},
+	{   42,  928, 0xffffff},
+	{   48,  930, 0xffffff},
+	{   55,  925, 0xffffff},
+	{   59,  925, 0xffffff},
+	{   56,  939, 0x003399},
+	{   66,  939, 0x003388},
+	{   74,  933, 0x003388},
+	{   81,  944, 0xbbffff},
+	{   11,  900, 0x11aaff},
 }
 
 -- 通用 登录后游戏主页面
