@@ -1,14 +1,14 @@
 require("TSLib")
-require("color_source")
+require("color_source_450")
 
--- 判断函数
+-- 取色判断函数
 
 --    参数 color,log,x,y,sleep
---    判断颜色 color
---    输出log log
---    点击坐标 x,y
---    延时等待 sleep
---    执行的函数 func
+--    color 颜色
+--    log 条件为真输出的日志
+--    x,y 点击坐标
+--    sleep 点击事件前后延时 默认800
+--    func 找到颜色后执行的函数
 function judge(data)
     if (not (data.color == nil) and multiColor(data.color)) then
         if (not (data.log == nil)) then
@@ -35,9 +35,10 @@ end
 
 -- 高级判断函数
 
--- 参数 flag,func
--- 判断条件 flag
--- 执行的函数 func
+--    参数 flag,func
+--    flag 判断条件 bool值
+--    func 条件为真执行的函数
+--    log 条件为真输出的日志
 function advancedJudge(data)
     if (data.flag) then
         if (not (data.log == nil)) then
@@ -112,6 +113,31 @@ function sliding(x1, y1, x2, y2, direction, directionFlag)
             mSleep(70)
             touchUp(x1, y2)
             mSleep(50)
+        end
+    end
+end
+
+-- 有限制的while循环
+
+-- 参数flag loopTime func
+-- flag 判断条件
+-- loopTime 延迟时间  默认20s 20s之后退出循环
+-- func() 循环里需要执行的函数
+-- log 输出的日志
+function hasLimitWhileLoop(data)
+    local cur_timestamp = os.time()
+    if (not (data.log == nil)) then
+        nLog(data.log)
+    end
+    if (data.loopTime == nil) then
+        data.loopTime = 20
+    end
+    while (data.flag) do
+        if (os.time() - cur_timestamp > data.loopTime) then
+            break
+        end
+        if (not (data.func == nil)) then
+            data.func()
         end
     end
 end
