@@ -1,5 +1,5 @@
 require("TSLib")
-require("color_source_450")
+require("color_source_750")
 
 -- 取色判断函数
 
@@ -78,18 +78,18 @@ function sliding(x1, y1, x2, y2, direction, directionFlag)
             touchDown(x1, y1)
             for i = x1 + 50, x2, 50 do
                 touchMove(i, y1)
-                mSleep(30)
+                mSleep(20)
             end
-            mSleep(70)
+            mSleep(20)
             touchUp(x2, y1)
             mSleep(50)
         else
             touchDown(x1, y1)
             for i = x1 - 50, x2, -50 do
                 touchMove(i, y1)
-                mSleep(30)
+                mSleep(20)
             end
-            mSleep(70)
+            mSleep(20)
             touchUp(x2, y1)
             mSleep(50)
         end
@@ -99,18 +99,18 @@ function sliding(x1, y1, x2, y2, direction, directionFlag)
             touchDown(x1, y1)
             for i = y1 + 50, y2, 50 do
                 touchMove(x1, i)
-                mSleep(30)
+                mSleep(20)
             end
-            mSleep(70)
+            mSleep(20)
             touchUp(x1, y2)
             mSleep(50)
         else
             touchDown(x1, y1)
             for i = y1 - 50, y2, -50 do
                 touchMove(x1, i)
-                mSleep(30)
+                mSleep(20)
             end
-            mSleep(70)
+            mSleep(20)
             touchUp(x1, y2)
             mSleep(50)
         end
@@ -126,7 +126,7 @@ end
 -- log 输出的日志
 function hasLimitWhileLoop(data)
     local cur_timestamp = os.time()
-    if (not (data.log == nil)) then
+    if (data.flag and not (data.log == nil)) then
         nLog(data.log)
     end
     if (data.loopTime == nil) then
