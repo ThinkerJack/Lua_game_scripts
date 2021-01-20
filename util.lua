@@ -1,5 +1,7 @@
 require("TSLib")
-require("color_source_750")
+
+-- 基类
+Util = {}
 
 -- 取色判断函数
 
@@ -9,7 +11,7 @@ require("color_source_750")
 --    x,y 点击坐标
 --    sleep 点击事件前后延时 默认800
 --    func 找到颜色后执行的函数
-function judge(data)
+Util.judge = function(data)
     if (not (data.color == nil) and multiColor(data.color)) then
         if (not (data.log == nil)) then
             nLog(data.log)
@@ -35,12 +37,35 @@ end
 
 -- 高级判断函数
 
---    参数 flag,func
---    flag 判断条件 bool值
 --    func 条件为真执行的函数
 --    log 条件为真输出的日志
-function advancedJudge(data)
-    if (data.flag) then
+Util.advancedJudge = function(data)
+    local flag = true
+    if (not (data.trueColorList == nil)) then
+        for i = 1, #data.trueColorList, i do
+            flag = flag and multiColor(data.trueColorList[i])
+            if (not flag) then
+                return
+            end
+        end
+    end
+    if (not (data.falseColorList == nil)) then
+        for i = 1, #data.falseColorList, i do
+            flag = flag and (not multiColor(data.falseColorList[i]))
+            if (not flag) then
+                return
+            end
+        end
+    end
+    if (not (data.flagList == nil)) then
+        for i = 1, #data.flagList, i do
+            flag = flag and data.flagList[i]
+            if (not flag) then
+                return
+            end
+        end
+    end
+    if (flag) then
         if (not (data.log == nil)) then
             nLog(data.log)
         end
@@ -50,24 +75,19 @@ end
 
 -- 循环判断
 
--- 参数 advancedJudgeList
-function loopJudge(judgeList)
+-- 参数 judgeList
+Util.loopJudge = function(judgeList)
     for i = 1, #judgeList, 1 do
-        judge(judgeList[i])
+        Util.judge(judgeList[i])
     end
 end
 
 -- 循环高级判断
 
--- 参数 judgeList
-function loopAdvancedJudge(judgeList)
+-- 参数 advancedJudgeList
+Util.loopAdvancedJudge = function(judgeList)
     for i = 1, #judgeList, 1 do
-        if judgeList[i].flag then
-            if (not (judgeList[i].log == nil)) then
-                nLog(judgeList[i].log)
-            end
-            judgeList[i].func()
-        end
+        Util.advancedJudge(judgeList[i])
     end
 end
 
@@ -78,7 +98,7 @@ end
 -- loopTime 延迟时间  默认20s 20s之后退出循环
 -- func() 循环里需要执行的函数
 -- log 输出的日志
-function hasLimitWhileLoop(data)
+Util.hasLimitWhileLoop = function(data)
     local cur_timestamp = os.time()
     if (data.flag and not (data.log == nil)) then
         nLog(data.log)
@@ -98,7 +118,7 @@ end
 
 -- 延时函数
 -- millisecond延时的毫秒值 最少30
-function wait(millisecond)
+Util.wait = function(millisecond)
     local nowTime = os.clock()
     while true do
         if os.clock() - nowTime == (millisecond / 1000) then
@@ -110,7 +130,7 @@ end
 -- 延时是否到达
 -- time 启动时间
 -- second 延时长度
-function timeJudge(time, second)
+Util.timeJudge = function(time, second)
     if ((os.time() - time) % second) == 0 then
         return true
     else
@@ -124,7 +144,7 @@ end
 -- 方向direction 横向true 纵向false
 -- 顺序direction 正向true 反向false 正向 从左到右  从上到下
 -- 滑动偏移量整除50
-function sliding(x1, y1, x2, y2, direction, directionFlag)
+Util.sliding = function(x1, y1, x2, y2, direction, directionFlag)
     if (direction) then
         if (directionFlag) then
             touchDown(x1, y1)

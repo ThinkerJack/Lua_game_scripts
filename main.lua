@@ -1,4 +1,5 @@
-require("module")
+require("appInit")
+require("funnyBattle")
 
--- appInit()
-funnyPvpRun()
+AppInit.run()
+FunnyBattle.run()
