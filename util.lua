@@ -62,7 +62,60 @@ end
 -- 参数 judgeList
 function loopAdvancedJudge(judgeList)
     for i = 1, #judgeList, 1 do
-        advancedJudge(judgeList[i])
+        if (judgeList[i].flag) then
+            if (not (judgeList[i].log == nil)) then
+                nLog(judgeList[i].log)
+            end
+            judgeList[i].func()
+            break
+        end
+    end
+end
+
+-- 有限制的while循环
+
+-- 参数flag loopTime func
+-- flag 判断条件
+-- loopTime 延迟时间  默认20s 20s之后退出循环
+-- func() 循环里需要执行的函数
+-- log 输出的日志
+function hasLimitWhileLoop(data)
+    local cur_timestamp = os.time()
+    if (data.flag and not (data.log == nil)) then
+        nLog(data.log)
+    end
+    if (data.loopTime == nil) then
+        data.loopTime = 20
+    end
+    while (data.flag) do
+        if (os.time() - cur_timestamp > data.loopTime) then
+            break
+        end
+        if (not (data.func == nil)) then
+            data.func()
+        end
+    end
+end
+
+-- 延时函数
+-- millisecond延时的毫秒值 最少30
+function wait(millisecond)
+    local nowTime = os.clock()
+    while true do
+        if os.clock() - nowTime == (millisecond / 1000) then
+            break
+        end
+    end
+end
+
+-- 延时是否到达
+-- time 启动时间
+-- second 延时长度
+function timeJudge(time, second)
+    if ((os.time() - time) % second) == 0 then
+        return true
+    else
+        return flase
     end
 end
 
@@ -113,31 +166,6 @@ function sliding(x1, y1, x2, y2, direction, directionFlag)
             mSleep(20)
             touchUp(x1, y2)
             mSleep(50)
-        end
-    end
-end
-
--- 有限制的while循环
-
--- 参数flag loopTime func
--- flag 判断条件
--- loopTime 延迟时间  默认20s 20s之后退出循环
--- func() 循环里需要执行的函数
--- log 输出的日志
-function hasLimitWhileLoop(data)
-    local cur_timestamp = os.time()
-    if (data.flag and not (data.log == nil)) then
-        nLog(data.log)
-    end
-    if (data.loopTime == nil) then
-        data.loopTime = 20
-    end
-    while (data.flag) do
-        if (os.time() - cur_timestamp > data.loopTime) then
-            break
-        end
-        if (not (data.func == nil)) then
-            data.func()
         end
     end
 end
