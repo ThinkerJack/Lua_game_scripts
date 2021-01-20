@@ -52,9 +52,9 @@ function getDoorPveJudgeList(type)
                 func = function()
                     -- 自动点击等级10的门
                     tap(89, 657)
-                    wait(2000)
+                    mSleep(2000)
                     tap(280, 832)
-                    wait(1000)
+                    mSleep(1000)
                 end
             }
         }
@@ -64,6 +64,7 @@ function getDoorPveJudgeList(type)
 end
 
 function getFunnyPvpRunJudgeList(data)
+    funnyPvpRunAdvancedJudgeList = {}
     if data.type == "simple" then
         funnyPvpRunJudgeList = {
             {color = pvpFieldMain["pvpFieldChoosedColor"], log = "竞技场主页 选中状态的底部竞技场", x = 235, y = 1227},
@@ -101,12 +102,12 @@ function getFunnyPvpRunJudgeList(data)
                     ((not multiColor(battleIng["fristRoundColor"])) or (not multiColor(battleIng["oneDigitRoundColor"]))),
                 log = "战斗中 你的回合 你的抽卡阶段",
                 func = function()
-                    wait(500)
+                    mSleep(500)
                     nLog("战斗中 抽卡动作执行")
                     sliding(362, 620, 632, 720, false, true)
-                    wait(800)
+                    mSleep(800)
                     tap(367, 660)
-                    wait(500)
+                    mSleep(500)
                 end
             },
             {
@@ -115,20 +116,20 @@ function getFunnyPvpRunJudgeList(data)
                     (not data.warkCardFlag),
                 log = "战斗中 你的回合  你的主要阶段",
                 func = function()
-                    wait(500)
+                    mSleep(500)
                     nLog("战斗中 出卡动作执行")
                     sliding(325, 1250, 325, 1000, flase, flase)
-                    wait(500)
+                    mSleep(500)
                 end
             },
             {
                 flag = multiColor(battleIng["mainWakeCardColor"]) and (not data.warkCardFlag),
                 log = "战斗中 主要阶段 召唤卡片",
                 func = function()
-                    wait(500)
+                    mSleep(500)
                     tap(268, 951)
                     data.warkCardFlag = true
-                    wait(200)
+                    mSleep(200)
                 end
             },
             {
@@ -139,9 +140,9 @@ function getFunnyPvpRunJudgeList(data)
                 func = function()
                     data.warkCardFlag = flase
                     tap(655, 815)
-                    wait(500)
+                    mSleep(500)
                     tap(544, 864)
-                    wait(1000)
+                    mSleep(1000)
                 end
             },
             {
@@ -149,10 +150,10 @@ function getFunnyPvpRunJudgeList(data)
                     (not multiColor(battleIng["withoutSecondCardColor"])),
                 log = "战斗中 你的战斗阶段 你的回合  二号卡槽有卡",
                 func = function()
-                    wait(1000)
+                    mSleep(1000)
                     nLog("战斗中 二号卡槽出卡动作执行")
                     moveTo(359, 716, 359, 618)
-                    wait(3000)
+                    mSleep(3000)
                     hasLimitWhileLoop(
                         {
                             flag = (not multiColor(battleIng["pvpYourRoundColor"])) and
@@ -165,7 +166,7 @@ function getFunnyPvpRunJudgeList(data)
                             flag = multiColor(battleIng["withoutSecondCardColor"]),
                             nLog = "战斗中 二号卡槽没卡 战斗阵亡了",
                             func = function()
-                                wait(3000)
+                                mSleep(3000)
                             end
                         }
                     )
@@ -176,10 +177,10 @@ function getFunnyPvpRunJudgeList(data)
                     (not multiColor(battleIng["withoutThirdCardColor"])),
                 log = "战斗中 你的战斗阶段 你的回合  三号卡槽有卡",
                 func = function()
-                    wait(1000)
+                    mSleep(1000)
                     nLog("战斗中 三号卡槽出卡动作执行")
                     moveTo(506, 711, 506, 618)
-                    wait(3000)
+                    mSleep(3000)
                     hasLimitWhileLoop(
                         {
                             flag = (not multiColor(battleIng["pvpYourRoundColor"])) and
@@ -192,7 +193,7 @@ function getFunnyPvpRunJudgeList(data)
                             flag = multiColor(battleIng["withoutThirdCardColor"]),
                             nLog = "战斗中 三号卡槽没卡 战斗阵亡了",
                             func = function()
-                                wait(3000)
+                                mSleep(3000)
                             end
                         }
                     )
@@ -203,10 +204,10 @@ function getFunnyPvpRunJudgeList(data)
                     (not multiColor(battleIng["withoutFirstCardColor"])),
                 log = "战斗中 你的战斗阶段 你的回合  一号卡槽有卡",
                 func = function()
-                    wait(1000)
+                    mSleep(1000)
                     nLog("战斗中 一号卡槽出卡动作执行")
                     moveTo(209, 711, 209, 600)
-                    wait(3000)
+                    mSleep(3000)
                     hasLimitWhileLoop(
                         {
                             flag = (not multiColor(battleIng["pvpYourRoundColor"])) and
@@ -221,11 +222,11 @@ function getFunnyPvpRunJudgeList(data)
                     multiColor(battleIng["changeRoundColor"]),
                 log = "战斗中 你的回合 你的战斗阶段 右侧切换阶段 结束战斗回合",
                 func = function()
-                    wait(1000)
+                    mSleep(1000)
                     tap(655, 815)
-                    wait(500)
+                    mSleep(500)
                     tap(544, 864)
-                    wait(1000)
+                    mSleep(1000)
                 end
             }
         }
