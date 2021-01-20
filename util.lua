@@ -62,12 +62,11 @@ end
 -- 参数 judgeList
 function loopAdvancedJudge(judgeList)
     for i = 1, #judgeList, 1 do
-        if (judgeList[i].flag) then
+        if judgeList[i].flag then
             if (not (judgeList[i].log == nil)) then
                 nLog(judgeList[i].log)
             end
             judgeList[i].func()
-            break
         end
     end
 end

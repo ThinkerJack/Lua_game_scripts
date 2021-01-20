@@ -1,7 +1,7 @@
 require("color_source_750")
 
-function getGeneralJudgeList(flag)
-    if flag == "simple" then
+function getGeneralJudgeList(data)
+    if data.type == "simple" then
         generalJudgeList = {
             {color = general["bottomSureColor"], log = "通用 底部确定", x = 358, y = 1198},
             {color = general["bottomNextColor"], log = "通用 底部下一步", x = 372, y = 1204},
@@ -10,12 +10,12 @@ function getGeneralJudgeList(flag)
             {color = general["getNewSkillColor"], log = "通用 获得新技能", x = 372, y = 793}
         }
     end
-    if flag == "advanced" then
+    if data.type == "advanced" then
     end
 end
 
-function getAppInitJudgeList(flag)
-    if flag == "simple" then
+function getAppInitJudgeList(data)
+    if data.type == "simple" then
         appInitJudgeList = {
             {color = gameRun["startGameColor"], log = "游戏启动 开始游戏界面按钮", x = 342, y = 795, sleep = 2000},
             {color = general["fullScreenPopBackColor"], log = "通用 全屏弹框左下角返回", x = 63, y = 1229},
@@ -23,20 +23,20 @@ function getAppInitJudgeList(flag)
                 color = general["loginAfterMain"],
                 log = "通用 登录后游戏主页面",
                 func = function()
-                    flag = false
+                    data.endFlag = false
                 end
             }
         }
     end
-    if flag == "advanced" then
+    if data.type == "advanced" then
     end
 
  
 
 end
 
-function getDoorPveJudgeList(flag)
-    if flag == "simple" then
+function getDoorPveJudgeList(type)
+    if type == "simple" then
         doorPveJudgeList = {
             {color = general["loginAfterMain"], log = "通用 登录后游戏主页面", x = 382, y = 418},
             {color = door["highLevelPopSureColor"], log = "决斗门 高等级怪物弹框", x = 388, y = 418},
@@ -44,7 +44,7 @@ function getDoorPveJudgeList(flag)
             {color = door["keyNoStockColor"], log = "决斗门 钥匙数量不足", x = 523, y = 462}
         }
     end
-    if flag == "advanced" then
+    if type == "advanced" then
         doorPveAdvancedJudgeList = {
             {
                 flag = multiColor(door["tapBattleDoorColor"]),
@@ -63,8 +63,8 @@ function getDoorPveJudgeList(flag)
 
 end
 
-function getFunnyPvpRunJudgeList(flag)
-    if flag == "simple" then
+function getFunnyPvpRunJudgeList(data)
+    if data.type == "simple" then
         funnyPvpRunJudgeList = {
             {color = pvpFieldMain["pvpFieldChoosedColor"], log = "竞技场主页 选中状态的底部竞技场", x = 235, y = 1227},
             {color = funnyPvp["listFunnyPvpColor"], log = "休闲决斗 决斗列表中的休闲决斗", x = 365, y = 828},
@@ -72,11 +72,11 @@ function getFunnyPvpRunJudgeList(flag)
             {color = funnyPvp["operateCardColor"], log = "战斗中出现操作卡的选项", x = 142, y = 873}
         }
     end
-    if flag == "advanced" then
+    if data.type == "advanced" then
         funnyPvpRunAdvancedJudgeList = {
             {
-                flag = timeJudge(time, 30),
-                log = "找到图片确定",
+                flag = timeJudge(data.time, 30),
+                log = "判断是否有确定图片",
                 func = function()
                     x, y = findImage("sure.png", 0, 0, 703, 1260)
                     if x ~= -1 and y ~= -1 then
@@ -86,8 +86,8 @@ function getFunnyPvpRunJudgeList(flag)
                 end
             },
             {
-                flag = timeJudge(time, 1200),
-                log = "找到图片重试",
+                flag = timeJudge(data.time, 1200),
+                log = "判断是否有重试图片",
                 func = function()
                     x, y = findImage("retry.png", 0, 0, 703, 1260)
                     if x ~= -1 and y ~= -1 then
@@ -103,7 +103,7 @@ function getFunnyPvpRunJudgeList(flag)
                 func = function()
                     wait(500)
                     nLog("战斗中 抽卡动作执行")
-                    moveTo(362, 620, 632, 720)
+                    sliding(362, 620, 632, 720, false, true)
                     wait(800)
                     tap(367, 660)
                     wait(500)
@@ -112,32 +112,32 @@ function getFunnyPvpRunJudgeList(flag)
             {
                 flag = (multiColor(battleIng["pvpYourRoundColor"]) and multiColor(battleIng["yourMainColor"])) and
                     (not multiColor(battleIng["mainWakeCardColor"])) and
-                    (not warkCardFlag),
+                    (not data.warkCardFlag),
                 log = "战斗中 你的回合  你的主要阶段",
                 func = function()
                     wait(500)
                     nLog("战斗中 出卡动作执行")
-                    moveTo(325, 1250, 325, 1000)
+                    sliding(325, 1250, 325, 1000, flase, flase)
                     wait(500)
                 end
             },
             {
-                flag = multiColor(battleIng["mainWakeCardColor"]) and (not warkCardFlag),
+                flag = multiColor(battleIng["mainWakeCardColor"]) and (not data.warkCardFlag),
                 log = "战斗中 主要阶段 召唤卡片",
                 func = function()
                     wait(500)
                     tap(268, 951)
-                    warkCardFlag = true
+                    data.warkCardFlag = true
                     wait(200)
                 end
             },
             {
                 flag = multiColor(battleIng["pvpYourRoundColor"]) and multiColor(battleIng["changeRoundColor"]) and
                     multiColor(battleIng["yourMainColor"]) and
-                    warkCardFlag,
+                    data.warkCardFlag,
                 log = "战斗中 主要阶段 你的回合 右侧切换阶段",
                 func = function()
-                    warkCardFlag = flase
+                    data.warkCardFlag = flase
                     tap(655, 815)
                     wait(500)
                     tap(544, 864)
