@@ -2,6 +2,7 @@ require("TSLib")
 require("util")
 require("color_source_750")
 
+-- 游戏启动
 AppInit = {}
 
 AppInit.startFlag = true
@@ -17,16 +18,17 @@ AppInit.judgeList = {
         end
     }
 }
-
-AppInit.run = function()
-    -- 初始化屏幕
-    init(0)
+AppInit.customJudge = function()
     -- 启动APP
     if (not (runApp("com.netease.ma84") == 0)) then
         nLog("启动失败")
         AppInit.run()
     end
-    --循环主体
+end
+AppInit.run = function()
+    -- 初始化屏幕
+    init(0)
+    AppInit.customJudge()
     while (AppInit.startFlag) do
         Util.loopJudge(AppInit.judgeList)
     end

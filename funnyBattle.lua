@@ -2,7 +2,7 @@ require("TSLib")
 require("general")
 require("util")
 
--- 基类
+-- 休闲决斗类
 
 FunnyBattle = {}
 
@@ -170,23 +170,27 @@ FunnyBattle.advancedJudgeList = {
         end
     }
 }
+FunnyBattle.customJudge = function()
+    if Util.timeJudge(FunnyBattle.time, 1200) then
+        x, y = findImage("retry.png", 0, 0, 703, 1260)
+        if x ~= -1 and y ~= -1 then
+            nLog("找到图片重试")
+            tap(x, y)
+        end
+    end
+    if Util.timeJudge(FunnyBattle.time, 40) then
+        x, y = findImage("sure.png", 0, 0, 703, 1260)
+        if x ~= -1 and y ~= -1 then
+            nLog("找到图片确定")
+            tap(x, y)
+        end
+    end
+end
+
 FunnyBattle.run = function()
     nLog("休闲决斗开始")
     while (FunnyBattle.startFlag) do
-        if Util.timeJudge(FunnyBattle.time, 1200) then
-            x, y = findImage("retry.png", 0, 0, 703, 1260)
-            if x ~= -1 and y ~= -1 then
-                nLog("找到图片重试")
-                tap(x, y)
-            end
-        end
-        if Util.timeJudge(FunnyBattle.time, 40) then
-            x, y = findImage("sure.png", 0, 0, 703, 1260)
-            if x ~= -1 and y ~= -1 then
-                nLog("找到图片确定")
-                tap(x, y)
-            end
-        end
+        FunnyBattle.customJudge()
         Util.loopJudge(General.judgeList)
         Util.loopJudge(FunnyBattle.judgeList)
         Util.loopAdvancedJudge(FunnyBattle.advancedJudgeList)

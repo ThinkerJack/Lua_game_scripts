@@ -1,9 +1,9 @@
 require("TSLib")
 
--- 基类
+-- 工具类
 Util = {}
 
--- 取色判断函数
+-- 取色判断函数 单色
 
 --    参数 color,log,x,y,sleep
 --    color 颜色
@@ -35,8 +35,11 @@ Util.judge = function(data)
     end
 end
 
--- 高级判断函数
+-- 取色判断函数 多色
 
+--    trueColorList 匹配的颜色列表
+--    falseColorList 不匹配的颜色列表
+--    flagList 自定义条件列表
 --    func 条件为真执行的函数
 --    log 条件为真输出的日志
 Util.advancedJudge = function(data)
@@ -73,37 +76,38 @@ Util.advancedJudge = function(data)
     end
 end
 
--- 循环判断
+-- 循环单色判断
 
--- 参数 judgeList
+--    参数 judgeList
 Util.loopJudge = function(judgeList)
     for i = 1, #judgeList, 1 do
         Util.judge(judgeList[i])
     end
 end
 
--- 循环高级判断
+-- 循环多色判断
 
--- 参数 advancedJudgeList
+--    参数 advancedJudgeList
 Util.loopAdvancedJudge = function(judgeList)
     for i = 1, #judgeList, 1 do
         Util.advancedJudge(judgeList[i])
     end
 end
 
--- 有限制的while循环
+-- 到达时间或条件不符合时自动退出的while循环
 
--- 参数flag loopTime func
--- flag 判断条件
--- loopTime 延迟时间  默认20s 20s之后退出循环
--- func() 循环里需要执行的函数
--- log 输出的日志
+--    trueColorList 匹配的颜色列表
+--    falseColorList 不匹配的颜色列表
+--    loopTime 延迟时间  默认20s 20s之后退出循环
+--    func() 循环里需要执行的函数
+--    log 循环结束时输出的日志
 Util.hasLimitWhileLoop = function(data)
     local cur_timestamp = os.time()
+    local flag = true
+    local count = 1
     if (data.loopTime == nil) then
         data.loopTime = 20
     end
-    local flag;
     while (flag) do
         if (os.time() - cur_timestamp > data.loopTime) then
             break
@@ -128,14 +132,17 @@ Util.hasLimitWhileLoop = function(data)
         if (not (data.func == nil)) then
             data.func()
         end
-    end
-    if (not (data.log == nil)) then
-        nLog(data.log)
+        if (count == 1) then
+            if (not (data.log == nil)) then
+                nLog(data.log)
+            end
+        end
+        count = count + 1
     end
 end
 
 -- 延时函数
--- millisecond延时的毫秒值 最少30
+--    millisecond延时的毫秒值 最少30
 Util.wait = function(millisecond)
     local nowTime = os.clock()
     while true do
@@ -145,9 +152,9 @@ Util.wait = function(millisecond)
     end
 end
 
--- 延时是否到达
--- time 启动时间
--- second 延时长度
+-- 延时是否到达指定长度
+--    time 启动时间
+--    second 延时长度
 Util.timeJudge = function(time, second)
     if ((os.time() - time) % second) == 0 then
         return true
@@ -158,10 +165,10 @@ end
 
 -- 滑动
 
--- 参数坐标 x1,y1, x2,y2
--- 方向direction 横向true 纵向false
--- 顺序direction 正向true 反向false 正向 从左到右  从上到下
--- 滑动偏移量整除50
+--    参数坐标 x1,y1, x2,y2
+--    方向direction 横向true 纵向false
+--    顺序direction 正向true 反向false 正向 从左到右  从上到下
+--    滑动偏移量整除50
 Util.sliding = function(x1, y1, x2, y2, direction, directionFlag)
     if (direction) then
         if (directionFlag) then
