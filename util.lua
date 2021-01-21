@@ -42,7 +42,7 @@ end
 Util.advancedJudge = function(data)
     local flag = true
     if (not (data.trueColorList == nil)) then
-        for i = 1, #data.trueColorList, i do
+        for i = 1, #(data.trueColorList), 1 do
             flag = flag and multiColor(data.trueColorList[i])
             if (not flag) then
                 return
@@ -50,7 +50,7 @@ Util.advancedJudge = function(data)
         end
     end
     if (not (data.falseColorList == nil)) then
-        for i = 1, #data.falseColorList, i do
+        for i = 1, #(data.falseColorList), 1 do
             flag = flag and (not multiColor(data.falseColorList[i]))
             if (not flag) then
                 return
@@ -58,7 +58,7 @@ Util.advancedJudge = function(data)
         end
     end
     if (not (data.flagList == nil)) then
-        for i = 1, #data.flagList, i do
+        for i = 1, #(data.flagList), 1 do
             flag = flag and data.flagList[i]
             if (not flag) then
                 return
@@ -100,19 +100,37 @@ end
 -- log 输出的日志
 Util.hasLimitWhileLoop = function(data)
     local cur_timestamp = os.time()
-    if (data.flag and not (data.log == nil)) then
-        nLog(data.log)
-    end
     if (data.loopTime == nil) then
         data.loopTime = 20
     end
-    while (data.flag) do
+    local flag;
+    while (flag) do
         if (os.time() - cur_timestamp > data.loopTime) then
             break
+        end
+        flag = true
+        if (not (data.trueColorList == nil)) then
+            for i = 1, #(data.trueColorList), 1 do
+                flag = flag and multiColor(data.trueColorList[i])
+                if (not flag) then
+                    break
+                end
+            end
+        end
+        if (not (data.falseColorList == nil)) then
+            for i = 1, #(data.falseColorList), 1 do
+                flag = flag and (not multiColor(data.falseColorList[i]))
+                if (not flag) then
+                    break
+                end
+            end
         end
         if (not (data.func == nil)) then
             data.func()
         end
+    end
+    if (not (data.log == nil)) then
+        nLog(data.log)
     end
 end
 

@@ -1,5 +1,6 @@
 require("TSLib")
 require("util")
+require("color_source_750")
 
 AppInit = {}
 
@@ -27,7 +28,7 @@ AppInit.run = function()
     end
     --循环主体
     while (AppInit.startFlag) do
-        Util.loopJudge(judgeList)
+        Util.loopJudge(AppInit.judgeList)
     end
     nLog("App启动成功")
 end
