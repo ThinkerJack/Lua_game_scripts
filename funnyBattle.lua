@@ -6,7 +6,7 @@ require("util")
 
 FunnyBattle = {}
 
-FunnyBattle.warkCardFlag = flase
+FunnyBattle.wakeCardFlag = false
 
 FunnyBattle.startFlag = true
 
@@ -26,7 +26,18 @@ FunnyBattle.judgeList = {
             tap(355, 1091)
             mSleep(500)
         end
-    }
+    },
+    {
+        color = battleIng["operateCardColor2"],
+        log = "战斗中出现操作卡的选项",
+        func = function()
+            mSleep(1000)
+            tap(137, 860)
+            mSleep(2000)
+            tap(346, 1085)
+            mSleep(500)
+        end
+    },
 }
 FunnyBattle.advancedJudgeList = {
     {
@@ -39,36 +50,36 @@ FunnyBattle.advancedJudgeList = {
                 Util.sliding(362, 620, 632, 720, false, true)
                 mSleep(800)
                 tap(367, 660)
-                mSleep(500)
+                mSleep(1500)
             end
         end
     },
     {
         trueColorList = {battleIng["pvpYourRoundColor"], battleIng["yourMainColor"]},
         falseColorList = {battleIng["mainWakeCardColor"]},
-        flagList = {not FunnyBattle.warkCardFlag},
+        --falseFlag = FunnyBattle.wakeCardFlag,
         log = "战斗中 你的回合  你的主要阶段",
         func = function()
             mSleep(500)
             nLog("战斗中 出卡动作执行")
-            Util.sliding(325, 1250, 325, 1000, flase, flase)
+            Util.sliding(325, 1250, 325, 1000, false, false)
             mSleep(500)
         end
     },
     {
         trueColorList = {battleIng["mainWakeCardColor"]},
-        flagList = {not FunnyBattle.warkCardFlag},
+        --falseFlag = FunnyBattle.wakeCardFlag,
         log = "战斗中 主要阶段 召唤卡片",
         func = function()
+            FunnyBattle.wakeCardFlag = true
             mSleep(500)
             tap(268, 951)
-            FunnyBattle.warkCardFlag = true
             mSleep(500)
             Util.hasLimitWhileLoop(
                 {
                     trueColorList = {battleIng["yourMainColor"]},
                     falseColorList = {battleIng["pvpYourRoundColor"]},
-                    log = "战斗中 战斗阶段 对手在做判断"
+                    log = "战斗中 主要阶段 对手在做判断"
                 }
             )
             mSleep(1500)
@@ -76,14 +87,14 @@ FunnyBattle.advancedJudgeList = {
     },
     {
         trueColorList = {battleIng["pvpYourRoundColor"], battleIng["changeRoundColor"], battleIng["yourMainColor"]},
-        flagList = {FunnyBattle.warkCardFlag},
+        --trueFlag = FunnyBattle.wakeCardFlag,
         log = "战斗中 主要阶段 你的回合 右侧切换阶段",
         func = function()
-            FunnyBattle.warkCardFlag = flase
+            FunnyBattle.wakeCardFlag = false
             tap(655, 815)
             mSleep(500)
             tap(544, 864)
-            mSleep(1000)
+            mSleep(500)
         end
     },
     {
@@ -94,7 +105,7 @@ FunnyBattle.advancedJudgeList = {
             mSleep(1000)
             nLog("战斗中 二号卡槽出卡动作执行")
             moveTo(359, 716, 359, 618)
-            mSleep(2000)
+            mSleep(3000)
             Util.hasLimitWhileLoop(
                 {
                     trueColorList = {battleIng["yourFightColor"]},
@@ -102,12 +113,13 @@ FunnyBattle.advancedJudgeList = {
                     log = "战斗中 战斗阶段 对手在做判断"
                 }
             )
+            mSleep(1000)
             Util.judge(
                 {
                     color = battleIng["withoutSecondCardColor"],
                     log = "战斗中 二号卡槽没卡 战斗阵亡了",
                     func = function()
-                        mSleep(3000)
+                        mSleep(2000)
                     end
                 }
             )
@@ -121,7 +133,7 @@ FunnyBattle.advancedJudgeList = {
             mSleep(1000)
             nLog("战斗中 三号卡槽出卡动作执行")
             moveTo(506, 711, 506, 618)
-            mSleep(2000)
+            mSleep(3000)
             Util.hasLimitWhileLoop(
                 {
                     trueColorList = {battleIng["yourFightColor"]},
@@ -129,6 +141,7 @@ FunnyBattle.advancedJudgeList = {
                     log = "战斗中 战斗阶段 对手在做判断"
                 }
             )
+            mSleep(1000)
             Util.judge(
                 {
                     color = battleIng["withoutThirdCardColor"],
@@ -148,7 +161,7 @@ FunnyBattle.advancedJudgeList = {
             mSleep(1000)
             nLog("战斗中 一号卡槽出卡动作执行")
             moveTo(209, 711, 209, 600)
-            mSleep(2000)
+            mSleep(3000)
             Util.hasLimitWhileLoop(
                 {
                     trueColorList = {battleIng["yourFightColor"]},
@@ -156,6 +169,7 @@ FunnyBattle.advancedJudgeList = {
                     log = "战斗中 战斗阶段 对手在做判断"
                 }
             )
+            mSleep(1000)
         end
     },
     {

@@ -15,7 +15,7 @@ Test.advancedJudgeList = {
     {
         trueColorList = {battleIng["pvpYourRoundColor"], battleIng["yourMainColor"]},
         falseColorList = {battleIng["mainWakeCardColor"]},
-        flagList = {true},
+        trueflag = true,
         log = "战斗中 你的回合  你的主要阶段",
         func = function()
         end

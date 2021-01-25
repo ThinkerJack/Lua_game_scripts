@@ -60,14 +60,6 @@ Util.advancedJudge = function(data)
             end
         end
     end
-    if (not (data.flagList == nil)) then
-        for i = 1, #(data.flagList), 1 do
-            flag = flag and data.flagList[i]
-            if (not flag) then
-                return
-            end
-        end
-    end
     if (flag) then
         if (not (data.log == nil)) then
             nLog(data.log)
@@ -159,7 +151,7 @@ Util.timeJudge = function(time, second)
     if ((os.time() - time) % second) == 0 then
         return true
     else
-        return flase
+        return false
     end
 end
 

@@ -1,5 +1,5 @@
 require("appInit")
 require("funnyBattle")
 
-AppInit.run()
+-- AppInit.run()
 FunnyBattle.run()
